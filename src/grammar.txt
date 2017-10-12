@@ -1,0 +1,22 @@
+Operator
+    Example
+        x <op> y -> (<op>, x, y)
+    Ast
+        Op(<op>, x, y)
+
+Sequence
+    Example
+        x, y, z -> (x y z)
+
+Application
+    Example
+        f x y -> apply(f, apply(x, y)) -> f (x y)
+    Associativity
+        right
+    Ast
+        Apply(f, x)
+
+Precedence
+1. Operator
+2. Sequence
+3. Function application (right associative)

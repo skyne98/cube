@@ -1,0 +1,23 @@
+{
+  "name": "cube",
+  "version": "1.0.0",
+  "main": "cube.js",
+  "license": "MIT",
+  "private": true,
+  "repository": {
+    "url": "https://github.com/skyne98/cube.git"
+  },
+  "scripts": {
+    "start": "webpack && node ./dist/bundle.js"
+  },
+  "devDependencies": {
+    "coffee-loader": "^0.8.0",
+    "coffeescript": "^2.0.1",
+    "raw-loader": "^0.5.1",
+    "webpack": "^3.7.1"
+  },
+  "dependencies": {
+    "detect-indent": "^5.0.0",
+    "lex": "^1.7.9"
+  }
+}
