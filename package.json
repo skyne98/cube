@@ -11,13 +11,18 @@
     "start": "webpack && node ./dist/bundle.js"
   },
   "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "babel-preset-env": "^1.6.0",
     "coffee-loader": "^0.8.0",
     "coffeescript": "^2.0.1",
     "raw-loader": "^0.5.1",
     "webpack": "^3.7.1"
   },
   "dependencies": {
+    "buble": "^0.16.0",
     "detect-indent": "^5.0.0",
-    "lex": "^1.7.9"
+    "lex": "^1.7.9",
+    "treeify": "^1.0.1"
   }
 }

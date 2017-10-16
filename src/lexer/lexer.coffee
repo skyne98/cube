@@ -50,7 +50,7 @@ export lex = (code) ->
 			indents.pop()
 
 		#Samedent
-		if add_samedent then tokens.push { type: 'sameden' }
+		if add_samedent then tokens.push { type: 'samedent' }
 
 		last_indent_level = current_indent_level
 
@@ -75,16 +75,16 @@ export lex = (code) ->
 	lexer.addRule /"[^"\\\r\n]*(?:\\.[^"\\\r\n]*)*"/, (lexeme) ->
 		result = {
 			type: 'string'
-			value: lexeme.splice(1, -1)
+			value: lexeme.slice(1, -1)
 			span: create_span code, position, lexeme.length, row, column, row, column + lexeme.length
 		}
-		column += lexeme.splice(1, -1).length
-		position += lexeme.splice(1, -1).length
+		column += lexeme.length
+		position += lexeme.length
 		return result
 	lexer.addRule /'[^'\\\r\n]*(?:\\.[^'\\\r\n]*)*'/, (lexeme) ->
 		result = {
 			type: 'string'
-			value: lexeme.splice(1, -1)
+			value: lexeme.slice(1, -1)
 			span: create_span code, position, lexeme.length, row, column, row, column + lexeme.length
 		}
 		column += lexeme.length
@@ -188,9 +188,18 @@ export lex = (code) ->
 		return result
 
 	#Operators
-	lexer.addRule /[\+\-\\\*/|><:;\.]+/, (lexeme) ->
+	lexer.addRule /[\+\-\\\*/|><:;\.=]+/, (lexeme) ->
 		result = {
 			type: 'operator'
+			value: lexeme
+			span: create_span code, position, lexeme.length, row, column, row, column + lexeme.length
+		}
+		column += lexeme.length
+		position += lexeme.length
+		return result
+	lexer.addRule /,/, (lexeme) ->
+		result = {
+			type: 'comma'
 			value: lexeme
 			span: create_span code, position, lexeme.length, row, column, row, column + lexeme.length
 		}
