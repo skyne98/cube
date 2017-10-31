@@ -1,0 +1,13 @@
+Precedence
+1. (E)
+2. F(E)
+3. -X
+4. X + Y
+5. S:S, R:R
+6. X, Y
+7. F X
+8. macro ...
+9. export (default) ...
+10. return ...
+11. S:S samedent R:R
+12. X samedent Y

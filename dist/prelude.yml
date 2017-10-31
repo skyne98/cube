@@ -1,0 +1,20 @@
+- name: 'let'
+  parser: |
+    (function () {
+      // Consume the "let"
+      stream.consume();
+
+      let dest = parse_destructuring_obj();
+
+      // Consume the "="
+
+      stream.consume();
+
+      let expr = parse_macro();
+
+      return { ident: dest, expr: expr }
+    })
+  generator: |
+    function () {
+      console.log('Generating!')
+    }

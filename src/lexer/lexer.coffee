@@ -7,7 +7,7 @@ export lex = (code) ->
 	#Indentation
 	detected_indent = detectIndent(code)
 	if detected_indent.type == 'tab' || detected_indent.type == null
-		throw new Error 'Wrong indentation'
+		detected_indent.amount = 4
 	space_amount = detected_indent.amount
 
 	indents = [0]
@@ -27,6 +27,22 @@ export lex = (code) ->
 	lexer.addRule /[\r]/, (lexeme) ->
 		column += 1
 		position += 1
+		return
+
+	lexer.addRule /^ *\r\n/gm, (lexeme) ->
+		column = 1
+		row += 1
+		position += lexeme
+		return
+	lexer.addRule /^ *\r/gm, (lexeme) ->
+		column = 1
+		row += 1
+		position += lexeme
+		return
+	lexer.addRule /^ *\n/gm, (lexeme) ->
+		column = 1
+		row += 1
+		position += lexeme
 		return
 
 	lexer.addRule /^ */gm, (lexeme) ->
@@ -91,7 +107,7 @@ export lex = (code) ->
 		position += lexeme.length
 		return result
 	#Numbers
-	lexer.addRule /[\+\-]?\d*\.?\d+(?:[Ee][\+\-]?\d+)?/, (lexeme) ->
+	lexer.addRule /\d*\.?\d+(?:[Ee][\+\-]?\d+)?/, (lexeme) ->
 		result = {
 			type: 'number'
 			value: parseFloat lexeme
@@ -110,6 +126,55 @@ export lex = (code) ->
 		column += lexeme.length
 		position += lexeme.length
 		return result
+	operator_to_name = (operator) =>
+		map_char = (char) =>
+			switch char
+				when '+'
+					return '$plus$'
+				when '-'
+					return '$minus$'
+				when '\\'
+					return '$backslash$'
+				when '/'
+					return '$slash$'
+				when '*'
+					return '$star$'
+				when '|'
+					return '$pipe$'
+				when '>'
+					return '$more$'
+				when '<'
+					return '$less$'
+				when ':'
+					return '$colon$'
+				when ';'
+					return '$semicolon$'
+				when '.'
+					return '$dot$'
+				when '='
+					return '$equals$'
+				else
+					throw new Error 'Undefined operator ' + operator
+		return operator.split('').map((c) => map_char c).join('')
+
+	lexer.addRule /\([\+\-\\\*/|><:;\.=]+\)/, (lexeme) ->
+		result = {
+			type: 'identifier'
+			value: operator_to_name lexeme.slice(1, -1)
+			span: create_span code, position, lexeme.length, row, column, row, column + lexeme.length
+		}
+		column += lexeme.length
+		position += lexeme.length
+		return result
+	lexer.addRule /\(u[\+\-\\\*/|><:;\.=]+\)/, (lexeme) ->
+		result = {
+			type: 'identifier'
+			value: '$unary$' + (operator_to_name lexeme.slice(2, -1))
+			span: create_span code, position, lexeme.length, row, column, row, column + lexeme.length
+		}
+		column += lexeme.length
+		position += lexeme.length
+		return result
 	#Parentheses
 	lexer.addRule /\(/, (lexeme) ->
 		result = {
@@ -123,25 +188,6 @@ export lex = (code) ->
 	lexer.addRule /\)/, (lexeme) ->
 		result = {
 			type: 'paren_close'
-			value: lexeme
-			span: create_span code, position, lexeme.length, row, column, row, column + lexeme.length
-		}
-		column += lexeme.length
-		position += lexeme.length
-		return result
-	#Brackets
-	lexer.addRule /\[/, (lexeme) ->
-		result = {
-			type: 'bra_open'
-			value: lexeme
-			span: create_span code, position, lexeme.length, row, column, row, column + lexeme.length
-		}
-		column += lexeme.length
-		position += lexeme.length
-		return result
-	lexer.addRule /\]/, (lexeme) ->
-		result = {
-			type: 'bra_close'
 			value: lexeme
 			span: create_span code, position, lexeme.length, row, column, row, column + lexeme.length
 		}

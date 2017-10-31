@@ -1,6 +1,3 @@
-meta Module where
-    syntax let
-        parse '() => { stream.consume(); let ident = parse_value(); stream.consume(); return { ident: ident, expr: parse_juxt() } }'
-        generate '() => true'
-let player = x: 10, y: 20, name: 'Skyne'
-run silent: 'yes', good: 'no'
+use syntax from './prelude.yml'
+
+(u++/) = hi

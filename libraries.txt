@@ -1,0 +1,9 @@
+1. Acorn - 65 kB / 21.4 kB
+2. Astring - 13.9 kB / 3.8 kB
+3. Buble - 188.4 kB / 59.4 kB
+4. Lex - 1.8 kB / 0.85 kB
+5. Enhanced-Resolve - 117.5 kB / 34.2 kB
+6. Memory-JS - 0.08 kB / 0.09 kB
+7. JS-YAML - 193.1 kB / 47.3 kB
+
+Total - 579.78 kB / 167.04 kB

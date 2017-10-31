@@ -8,7 +8,7 @@
     "url": "https://github.com/skyne98/cube.git"
   },
   "scripts": {
-    "start": "webpack && node ./dist/bundle.js"
+    "start": "webpack && node -r source-map-support/register --inspect-brk=5858 ./dist/bundle.js"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",
@@ -20,9 +20,17 @@
     "webpack": "^3.7.1"
   },
   "dependencies": {
+    "acorn": "^5.1.2",
+    "babel-generator": "^6.26.0",
+    "babel-types": "^6.26.0",
     "buble": "^0.16.0",
+    "chalk": "^1.1.3",
     "detect-indent": "^5.0.0",
+    "immutable": "^3.8.2",
+    "js-yaml": "^3.10.0",
     "lex": "^1.7.9",
+    "resolve": "^1.5.0",
+    "source-map-support": "^0.5.0",
     "treeify": "^1.0.1"
   }
 }

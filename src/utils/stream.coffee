@@ -6,5 +6,5 @@ export streamify = (array) =>
         lookahead: (items) ->
             @array[items]
         peek: () ->
-            @lookahead 0
+            @lookahead 0   
     }
